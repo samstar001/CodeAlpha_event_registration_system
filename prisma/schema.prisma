@@ -1,0 +1,50 @@
+// prisma/schema.prisma — defines data models
+
+generator client {
+  provider = "prisma-client"        // generates the typed Prisma Client
+  output   = "../generated/prisma"  // where the generated client code is written
+}
+
+datasource db {
+  provider = "postgresql"           // database type 
+}
+
+// User — anyone who can register for events
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  createdAt     DateTime       @default(now())
+  registrations Registration[] // reverse relation — all registrations this user has made
+}
+
+// Event — what users register for
+model Event {
+  id            String         @id @default(uuid())
+  title         String
+  description   String?
+  date          DateTime
+  location      String?
+  capacity      Int
+  createdAt     DateTime       @default(now())
+  registrations Registration[] // reverse relation — all registrations for this event
+}
+
+// Registration — the join table linking a User to an Event
+model Registration {
+  id           String   @id @default(uuid())
+  userId       String
+  eventId      String
+  status       Status   @default(CONFIRMED)
+  registeredAt DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+  event        Event    @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId]) // prevents duplicate registrations for the same event
+}
+
+// Status — allowed values for a Registration's state
+enum Status {
+  CONFIRMED
+  CANCELLED
+}
