@@ -1,5 +1,5 @@
 // middleware/errorHandler.js — centralized error handler, tuned for Prisma's error codes
-import { Prisma } from "../generated/prisma/client.js"; // needed to check error type below
+import { Prisma } from "@prisma/client"; // needed to check error type below
 
 const errorHandler = (err, req, res, next) => {
   let statusCode = 500;
