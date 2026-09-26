@@ -1,8 +1,7 @@
 // prisma/schema.prisma — defines data models
 
 generator client {
-  provider = "prisma-client"        // generates the typed Prisma Client
-  output   = "../generated/prisma"  // where the generated client code is written
+  provider = "prisma-client-js"        // generates the typed Prisma Client
 }
 
 datasource db {

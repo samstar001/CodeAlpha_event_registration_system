@@ -1,5 +1,5 @@
 // config/prisma.js — creates one shared Prisma Client instance, connected via the pg adapter
-import { PrismaClient } from "../generated/prisma/client.js"; // generated client
+import { PrismaClient } from "@prisma/client"; // generated client
 import { PrismaPg } from "@prisma/adapter-pg"; // driver adapter, required in Prisma 7
 import dotenv from "dotenv";
 
