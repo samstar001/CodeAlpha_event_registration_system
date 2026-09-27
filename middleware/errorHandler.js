@@ -2,6 +2,7 @@
 import { Prisma } from "@prisma/client"; // needed to check error type below
 
 const errorHandler = (err, req, res, next) => {
+  console.error("ERROR CAUGHT:", err); // temporary — shows the real error and stack trace in your terminal
   let statusCode = 500;
   let message = "Server error";
 
@@ -19,6 +20,9 @@ const errorHandler = (err, req, res, next) => {
       // foreign key constraint failed (e.g. userId/eventId that doesn't exist)
       statusCode = 400;
       message = "Invalid reference — related record does not exist";
+    } else if (err.code === "ETIMEDOUT" || err.code === "ECONNREFUSED") {
+      statusCode = 503;
+      message = "Database connection timed out — please try again";
     }
   }
 
